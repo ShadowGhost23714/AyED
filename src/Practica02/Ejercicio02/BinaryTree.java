@@ -1,5 +1,8 @@
 package Practica02.Ejercicio02;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinaryTree<T> {
 	
 	private T data;
@@ -24,14 +27,14 @@ public class BinaryTree<T> {
 	}
 	/**
 	 * Preguntar antes de invocar si hasLeftChild()
-	 * @return
+	 * return
 	 */
 	public BinaryTree<T> getLeftChild() {
 		return leftChild;
 	}
 	/**
 	 * Preguntar antes de invocar si hasRightChild()
-	 * @return
+	 * return
 	 */
 	public BinaryTree<T> getRightChild() {
 		return this.rightChild;
@@ -104,11 +107,41 @@ public class BinaryTree<T> {
 
 	// 0<=n<=m
 	public void entreNiveles (int n, int m) {
-		System.out.println(this.getData());
-		if (this.hasLeftChild()) {
-			
+		if (this.isEmpty() || n < 0 || m < n) return;
+		Queue<BinaryTree<T>> cola = new LinkedList<>();
+		cola.add(this);
+		int nivelActual = 0;
+		while (!cola.isEmpty()){
+			int nodoNivel = cola.size();
+			if (nivelActual >=n && nivelActual <= m){
+				for(int i=0; i < nodoNivel; i++) {
+					BinaryTree<T> nodo = cola.remove();
+					System.out.print(nodo.getData() + " | ");
+					if(nodo.hasLeftChild()) {
+						cola.add(nodo.getLeftChild());
+					}
+					if(nodo.hasRightChild()){
+						cola.add(nodo.getRightChild());
+					}
+				}
+			} else {
+				for(int i=0; i < nodoNivel; i++) {
+					cola.remove();
+				}
+			}
+			nivelActual++;
+			System.out.println();
 		}
+	}
 
-    }
+	public void imprimirArbol() {
+		if(this.hasLeftChild()){
+			this.getLeftChild().imprimirArbol();
+		}
+		System.out.print(this.getData() + " ");
+		if(this.hasRightChild()){
+			this.getRightChild().imprimirArbol();
+		}
+	}
 }
 
